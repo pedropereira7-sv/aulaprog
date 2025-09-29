@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
@@ -19,17 +17,42 @@ const buscaClima = async () => {
 setCarregando(true);
 setErro('');
 
-try(
-   
+try
+  const API_KEY = 'bdSe378503939ddaee76f12ad7a97608';
+  const url = 'https://api.openweathermap.org/data/2.5/weather?q=$(cidade)&appid$(API_KEY)&units=metric&lang=pt_br';
+  const resposta = await fetch(url);
+
+  if(!resposta.ok)(
+    throw new Error('Cidade não encontrada');
+  )
+  
+  const dados = await resposta.json();
+  setClima(dados);
+
 } catch (error){
+  setErro(eror.mensagem);
+  setClima(null);
 
 }finally (
+  setCarregando(false);
   
-)
+  )
+} //fechq buscaClima()
+
+  const handleKeyPress = (e) => {
+    if (e.key == 'Enter'){
+      buscaClima();
+    }
+  };
+
 
   return (
     <>
-      
+      <div className="app-container">
+        <div className="content-wrapper">
+
+        </div>
+      </div>
     </>
   )
 }
